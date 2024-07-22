@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import InputView from '../views/InputView.vue'
 import LoginView from '../views/LoginView.vue'
+import QuestionPage from '../views/question/QuestionPage.vue'
+import SuccessPage from '../views/question/SuccessPage.vue'
 import { useUserStore } from '../stores/user'
 
 const routers = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: QuestionPage
   },
   {
     path: '/about',
@@ -26,6 +27,16 @@ const routers = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/question',
+    name: 'question',
+    component: QuestionPage,
+  },
+  {
+    path: '/success/:score',
+    name: 'success',
+    component: SuccessPage
   }
 ]
 

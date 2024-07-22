@@ -1,25 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { useUserStore } from './stores/user'
-const { userAuth } = useUserStore()
-const isLogin = !!userAuth
 </script>
 
 <template>
-  <header v-if="!isLogin">
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/input">Input</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-      </nav>
-    </div>
-  </header>
-
   <RouterView />
 </template>
 
