@@ -3,13 +3,14 @@ import InputView from '../views/InputView.vue'
 import LoginView from '../views/LoginView.vue'
 import QuestionPage from '../views/question/QuestionPage.vue'
 import SuccessPage from '../views/question/SuccessPage.vue'
+import ExportPage from '../views/question/ExportPage.vue'
 import { useUserStore } from '../stores/user'
 
 const routers = [
   {
     path: '/',
     name: 'home',
-    component: QuestionPage
+    component: ExportPage
   },
   {
     path: '/about',
@@ -37,6 +38,11 @@ const routers = [
     path: '/success/:score',
     name: 'success',
     component: SuccessPage
+  },
+  {
+    path: '/export/',
+    name: 'export',
+    component: ExportPage
   }
 ]
 

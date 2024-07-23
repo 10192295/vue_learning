@@ -21,7 +21,9 @@
   </div>
   <div class="foot-button">
     <el-countdown prefix="还有" suffix="自动交卷" :value="counter" @finish="handleSubmit" />
-    <el-button type="primary" size="large" :disabled="!submitButton" @click="handleSubmit">提交</el-button>
+    <el-button type="primary" size="large" :disabled="!submitButton" @click="handleSubmit"
+      >提交</el-button
+    >
   </div>
 </template>
 
@@ -29,9 +31,11 @@
 import { ref, computed, onMounted } from 'vue'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+import { useCounterStore } from '@/stores/counter'
 
-const router = useRouter();
+const router = useRouter()
+const { question, length } = useCounterStore()
 
 // 定义一个 ref 来存储问题数组
 const questionArray = ref([])
@@ -76,79 +80,39 @@ const handleNext = () => {
   }
 }
 
-const handleSubmit  = () => {
-  const array = questionArray.value;
-  array.forEach(item => {
-    const { content: { correctAnswers, options } } = item
+const handleSubmit = () => {
+  const array = questionArray.value
+  array.forEach((item) => {
+    const {
+      content: { correctAnswers, options }
+    } = item
     let selected = []
-    options.forEach(item => {
+    options.forEach((item) => {
       if (item.flag) {
-        selected.push(item.optionId);
+        selected.push(item.optionId)
       }
     })
     if (arraysEqual(selected, correctAnswers)) {
-      score.value++;
+      score.value++
     }
   })
-  router.push({ name: 'success', params: { score: score.value } });
+  router.push({ name: 'success', params: { score: score.value } })
 }
 
 const arraysEqual = (arr1, arr2) => {
-  if (arr1.length !== arr2.length) return false;
-  return arr1.every(element => arr2.includes(element));
+  if (arr1.length !== arr2.length) return false
+  return arr1.every((element) => arr2.includes(element))
 }
-import { testApi } from '../../api';
+import { testApi } from '../../api'
 // 使用 onMounted 来初始化问题数组
 onMounted(() => {
   testApi({
-    params:  questionArray.value
-  }).then(res => {
-    console.log(res);
+    params: questionArray.value
+  }).then((res) => {
+    console.log(res)
   })
-  questionArray.value = [
-    {
-      id: '1',
-      title: '题目1',
-      content: {
-        text: 'Which of the following is a programming language?',
-        options: [
-          { optionId: 'a', text: 'HTML', flag: false },
-          { optionId: 'b', text: 'CSS', flag: false },
-          { optionId: 'c', text: 'JavaScript', flag: false },
-          { optionId: 'd', text: 'HTTP', flag: false }
-        ],
-        correctAnswers: ['c']
-      }
-    },
-    {
-      id: '2',
-      title: '题目2',
-      content: {
-        text: 'Which of the following is a programming language?',
-        options: [
-          { optionId: 'a', text: 'HTML' },
-          { optionId: 'b', text: 'CSS' },
-          { optionId: 'c', text: 'JavaScript' },
-          { optionId: 'd', text: 'HTTP' }
-        ],
-        correctAnswers: ['a']
-      }
-    },
-    {
-      id: '3',
-      title: '题目3',
-      content: {
-        text: 'Which of the following is a programming language?',
-        options: [
-          { optionId: 'a', text: 'HTML' },
-          { optionId: 'b', text: 'CSS' },
-          { optionId: 'c', text: 'JavaScript' },
-          { optionId: 'd', text: 'HTTP' }
-        ],
-        correctAnswers: ['b']
-      }
-    }
-  ]
+  console.log(length, question)
+  questionArray.value = question
 })
 </script>
 

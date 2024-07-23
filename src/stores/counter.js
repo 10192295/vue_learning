@@ -1,12 +1,17 @@
-import { ref, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  const question = reactive([])
+  const length = computed(() => question.length)
+  const addQuestion = (obj) => {
+    if (length.value === 0) {
+      obj.id = 1;
+    } else {
+      const len = length.value + 1;
+      obj.id = len
+    }
+    question.push(obj);
   }
-
-  return { count, doubleCount, increment }
+  return { question, addQuestion, length }
 })
