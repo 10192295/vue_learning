@@ -1,9 +1,9 @@
 <template>
-  <h1>导入</h1>
-  <div>
+  <h1 class="title">导入</h1>
+  <div class="content">
     <el-form
       label-width="auto"
-      style="max-width: 600px"
+      style="max-width: 600px; display: inline-block;"
       ref="formRef"
       :model="form"
       :rules="rules"
@@ -30,12 +30,12 @@
           <el-option label="D" value="D" />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <div>
         <el-button type="primary" @click="submitForm(formRef)"> 添加 </el-button>
         <el-button @click="resetForm(formRef)">重置</el-button>
-      </el-form-item>
+        <el-button type="primary" @click="submit"> go </el-button>
+      </div>
     </el-form>
-    <el-button type="primary" @click="submit"> go </el-button>
   </div>
 </template>
 
@@ -106,5 +106,9 @@ const submitForm = async (formEl) => {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.title, .content {
+    text-align: center;
+    margin-bottom: 20px;
+}
 </style>
