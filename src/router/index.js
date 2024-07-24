@@ -5,12 +5,13 @@ import QuestionPage from '../views/question/QuestionPage.vue'
 import SuccessPage from '../views/question/SuccessPage.vue'
 import ExportPage from '../views/question/ExportPage.vue'
 import { useUserStore } from '../stores/user'
+import ExcelTest from '../views/ExcelTest.vue'
 
 const routers = [
   {
     path: '/',
     name: 'home',
-    component: ExportPage
+    component: ExcelTest
   },
   {
     path: '/about',
