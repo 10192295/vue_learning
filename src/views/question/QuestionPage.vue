@@ -132,6 +132,7 @@ const handleSubmit = () => {
   router.push({ name: 'success', params: { score: score.value } })
 }
 
+// 模板
 const handleUseTemplate = () => {
   questionArray.value = [
     {
