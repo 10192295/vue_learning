@@ -11,7 +11,7 @@ const routers = [
   {
     path: '/',
     name: 'home',
-    component: ExcelTest
+    component: QuestionPage
   },
   {
     path: '/about',
@@ -41,9 +41,14 @@ const routers = [
     component: SuccessPage
   },
   {
-    path: '/export/',
+    path: '/export',
     name: 'export',
     component: ExportPage
+  },
+  {
+    path: '/excel',
+    name: 'excel',
+    component: ExcelTest
   }
 ]
 

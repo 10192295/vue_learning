@@ -34,6 +34,7 @@
         <el-button type="primary" @click="submitForm(formRef)"> 添加 </el-button>
         <el-button @click="resetForm(formRef)">重置</el-button>
         <el-button type="primary" @click="submit"> go </el-button>
+        <el-button type="primary" @click="handleWrite"> 使用模板填写 </el-button>
       </div>
     </el-form>
   </div>
@@ -61,6 +62,11 @@ const router = useRouter()
 const submit = () => {
   router.push({ name: 'question' })
 }
+
+const handleWrite = () => {
+  router.push({ name: 'excel' })
+}
+
 const rules = reactive({
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
   text: [{ required: true, message: '请输入题目', trigger: 'blur' }],

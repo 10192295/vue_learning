@@ -13,6 +13,7 @@
     "axios": "^1.7.2",
     "element-plus": "^2.4.4",
     "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "pinia": "^2.1.7",

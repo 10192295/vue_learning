@@ -27,12 +27,14 @@
     <div class="pew-button">
       <el-button-group>
         <el-button type="primary" :icon="ArrowLeft" @click="handlePrevious">上一题</el-button>
-        <el-divider direction="vertical" />
-        <span>{{ `当前第${currentIndex}题` }}</span>
+        <el-button type="primary">{{ `当前第${currentIndex}题` }}</el-button>
         <el-button type="primary" @click="handleNext">
           下一题<el-icon class="el-icon--right"><ArrowRight /></el-icon>
         </el-button>
       </el-button-group>
+    </div>
+    <div class="button-group">
+      <ButtonGroup v-for="(item, index) in buttonOptions" :key="index" :button-prop="item" />
     </div>
     <div class="foot-button">
       <el-countdown prefix="还有" suffix="自动交卷" :value="counter" @finish="handleSubmit" />
@@ -44,11 +46,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, reactive, watch } from 'vue'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
+import ButtonGroup from './components/ButtonGroup.vue'
 
 const router = useRouter()
 const { question, length } = useCounterStore()
@@ -58,7 +61,13 @@ const questionArray = ref([])
 // 定义一个 ref 来存储当前问题的索引
 const index = ref(0)
 const score = ref(0)
-
+// const options = computed(() => {
+//   const arr = []
+//   for (let index of questionArray.value.keys()) {
+//     arr.push(index)
+//   }
+//   return arr
+// })
 const counter = ref(Date.now() + 1000 * 60 * 60 * 2)
 
 // 使用 computed 获取当前显示的问题
@@ -185,6 +194,25 @@ onMounted(() => {
   console.log(length, question)
   questionArray.value = question
 })
+let buttonOptions = reactive([])
+watch(
+  questionArray,
+  (newValue, oldValue) => {
+    console.log(newValue, oldValue)
+    buttonOptions = []
+    for (let [index, item] of newValue.entries()) {
+      const { content: {options} } = item
+      const arr = options.find((item) => item.flag)
+      const obj = {
+        index,
+        checked: (arr && arr.length !== 0) ? true : false
+      }
+      console.log(obj);
+      buttonOptions.push(obj)
+    }
+  },
+  { immediate: true, deep: true }
+)
 </script>
 
 <style lang="less" scoped>
@@ -209,5 +237,12 @@ onMounted(() => {
 .foot-button {
   position: fixed;
   bottom: 5vh;
+}
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 400px;
+  align-content: start;
 }
 </style>
