@@ -1,5 +1,19 @@
 <template>
-  <div>
+  <div v-if="empty">
+    <el-empty description="当前没有题目">
+      <el-button
+        type="primary"
+        @click="
+          () => {
+            router.push({ name: 'export' })
+          }
+        "
+        >去添加题目</el-button
+      >
+      <el-button @click="handleUseTemplate">使用模板</el-button>
+    </el-empty>
+  </div>
+  <div v-else>
     <h1>{{ currentQuestion?.title }}</h1>
     <h2 class="content-text">{{ currentQuestion?.content?.text || '' }}</h2>
     <h3
@@ -10,20 +24,22 @@
     >
       {{ `${item.optionId}: ${item.text}` }}
     </h3>
-  </div>
-  <div class="pew-button">
-    <el-button-group>
-      <el-button type="primary" :icon="ArrowLeft" @click="handlePrevious">上一题</el-button>
-      <el-button type="primary" @click="handleNext">
-        下一题<el-icon class="el-icon--right"><ArrowRight /></el-icon>
-      </el-button>
-    </el-button-group>
-  </div>
-  <div class="foot-button">
-    <el-countdown prefix="还有" suffix="自动交卷" :value="counter" @finish="handleSubmit" />
-    <el-button type="primary" size="large" :disabled="!submitButton" @click="handleSubmit"
-      >提交</el-button
-    >
+    <div class="pew-button">
+      <el-button-group>
+        <el-button type="primary" :icon="ArrowLeft" @click="handlePrevious">上一题</el-button>
+        <el-divider direction="vertical" />
+        <span>{{ `当前第${currentIndex}题` }}</span>
+        <el-button type="primary" @click="handleNext">
+          下一题<el-icon class="el-icon--right"><ArrowRight /></el-icon>
+        </el-button>
+      </el-button-group>
+    </div>
+    <div class="foot-button">
+      <el-countdown prefix="还有" suffix="自动交卷" :value="counter" @finish="handleSubmit" />
+      <el-button type="primary" size="large" :disabled="!submitButton" @click="handleSubmit"
+        >提交</el-button
+      >
+    </div>
   </div>
 </template>
 
@@ -48,6 +64,14 @@ const counter = ref(Date.now() + 1000 * 60 * 60 * 2)
 // 使用 computed 获取当前显示的问题
 const currentQuestion = computed(() => {
   return questionArray.value[index.value] || {}
+})
+
+const empty = computed(() => {
+  return questionArray.value.length === 0
+})
+
+const currentIndex = computed(() => {
+  return index.value + 1
 })
 
 const submitButton = computed(() => {
@@ -97,6 +121,53 @@ const handleSubmit = () => {
     }
   })
   router.push({ name: 'success', params: { score: score.value } })
+}
+
+const handleUseTemplate = () => {
+  questionArray.value = [
+    {
+      id: '1',
+      title: '题目1',
+      content: {
+        text: 'Which of the following is a programming language?',
+        options: [
+          { optionId: 'a', text: 'HTML', flag: false },
+          { optionId: 'b', text: 'CSS', flag: false },
+          { optionId: 'c', text: 'JavaScript', flag: false },
+          { optionId: 'd', text: 'HTTP', flag: false }
+        ],
+        correctAnswers: ['c']
+      }
+    },
+    {
+      id: '2',
+      title: '题目2',
+      content: {
+        text: 'Which of the following is a programming language?',
+        options: [
+          { optionId: 'a', text: 'HTML', flag: false },
+          { optionId: 'b', text: 'CSS', flag: false },
+          { optionId: 'c', text: 'JavaScript', flag: false },
+          { optionId: 'd', text: 'HTTP', flag: false }
+        ],
+        correctAnswers: ['a']
+      }
+    },
+    {
+      id: '3',
+      title: '题目3',
+      content: {
+        text: 'Which of the following is a programming language?',
+        options: [
+          { optionId: 'a', text: 'HTML', flag: false },
+          { optionId: 'b', text: 'CSS', flag: false },
+          { optionId: 'c', text: 'JavaScript', flag: false },
+          { optionId: 'd', text: 'HTTP', flag: false }
+        ],
+        correctAnswers: ['b']
+      }
+    }
+  ]
 }
 
 const arraysEqual = (arr1, arr2) => {
